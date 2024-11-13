@@ -1,0 +1,3 @@
+aiohttp==3.10.10
+pydantic_settings==2.6.1
+SQLAlchemy==2.0.36
