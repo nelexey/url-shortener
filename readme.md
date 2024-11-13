@@ -61,7 +61,7 @@ This will run the server on the configured host and port (e.g., `http://localhos
 
 ### 1. Create Short URL
 
-**Endpoint**: `/api/shorten`  
+**Endpoint**: `/shorten`  
 **Method**: `POST`
 
 **Request Body**:
@@ -80,7 +80,7 @@ This will run the server on the configured host and port (e.g., `http://localhos
 
 **Example**:
 ```bash
-curl -X POST http://localhost:8082/api/shorten -H "Content-Type: application/json" -d '{"original_url": "https://example.com"}'
+curl -X POST http://localhost:8082/shorten -H "Content-Type: application/json" -d '{"original_url": "https://example.com"}'
 ```
 
 ### 2. Redirect to Original URL
@@ -97,7 +97,7 @@ curl -X GET http://localhost:8082/abc123
 
 ### 3. Get URL Statistics
 
-**Endpoint**: `/api/stats/{short_code}`  
+**Endpoint**: `/stats/{short_code}`  
 **Method**: `GET`
 
 Provides statistics for a specific short code, including the number of clicks.
@@ -113,19 +113,19 @@ Provides statistics for a specific short code, including the number of clicks.
 
 **Example**:
 ```bash
-curl -X GET http://localhost:8082/api/stats/abc123
+curl -X GET http://localhost:8082/stats/abc123
 ```
 
 ### 4. Delete Short URL
 
-**Endpoint**: `/api/delete/{short_code}`  
+**Endpoint**: `/delete/{short_code}`  
 **Method**: `GET`
 
 Deletes the specified short URL.
 
 **Example**:
 ```bash
-curl -X GET http://localhost:8082/api/delete/abc123
+curl -X GET http://localhost:8082/delete/abc123
 ```
 
 ## Testing and Development
