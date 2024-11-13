@@ -2,31 +2,35 @@ from aiohttp import web
 from source.database.methods.read import get_original_url
 from source.database.methods.update import increment_click_count
 
-
 async def get_url(request: web.Request) -> web.Response:
     """
-    Redirects the user to the original URL based on the provided short code.
+    Handles a request to retrieve and redirect to the original URL using a short code.
+
+    This function extracts the 'short_code' from the incoming request path,
+    retrieves the corresponding original URL from the database, and redirects
+    the user to that URL. If the short code is invalid or not found, it returns
+    an appropriate error response.
 
     Args:
         request (web.Request): The incoming HTTP request containing 'short_code' in the URL.
 
     Returns:
-        web.Response: Redirects to the original URL or returns an error if not found.
+        web.Response: A redirection to the original URL or an error response if the short code is invalid or not found.
     """
-    # Извлекаем short_code как строку из пути запроса
-    short_code = request.match_info.get('short_code')
+    # Extract 'short_code' from the request URL path
+    short_code: str = request.match_info.get('short_code', "")
 
-    if short_code is None:
+    if not short_code:
         return web.Response(text="Short code is missing", status=400)
 
-    # Получаем оригинальный URL из базы данных
+    # Retrieve the original URL from the database
     original_url = get_original_url(short_code)
 
     if original_url:
-        # Увеличиваем счетчик кликов
+        # Increment click count for the short code
         increment_click_count(short_code)
-        # Перенаправляем на оригинальный URL
+        # Redirect to the original URL
         return web.HTTPFound(location=original_url)
     else:
-        # Возвращаем 404, если короткий код не найден
+        # Return 404 if the short code is not found
         return web.Response(text="Short URL not found", status=404)
